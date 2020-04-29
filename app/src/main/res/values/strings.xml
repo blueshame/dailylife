@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Daily Application</string>
+    <string name="action_login">login</string>
+    <string name="prompt_username">user name</string>
+    <string name="prompt_password">password</string>
+</resources>
