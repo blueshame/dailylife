@@ -1,7 +1,5 @@
 package com.flywant.dailylife.app;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,12 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.flywant.api.AuthUser;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "LIFE";
@@ -27,32 +22,22 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "clicks");
-                EditText username = findViewById(R.id.username);
-                String message = username.getText().toString();
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                login();
+            Log.e(TAG, "clicks");
+            EditText usernameView = findViewById(R.id.username);
+            EditText passwordView = findViewById(R.id.password);
+            final String username = usernameView.getText().toString();
+            final String password = passwordView.getText().toString();
+            String message = username + " loging";
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    AuthUser authUser = new AuthUser();
+                    authUser.login(username, password, null);
+                }
+            });
+            thread.start();
             }
         });
-    }
-
-    private void login() {
-        try {
-            Log.e(TAG, "login");
-            //URL url = new URL("http://192.168.2.104:5000");
-            URL url = new URL("http://www.baidu.com");
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-            byte[] result = new byte[1024];
-            in.read(result);
-            Log.e(TAG, new String(result));
-            Log.e(TAG, "login successful");
-        } catch (MalformedURLException e) {
-            Log.e(TAG, e.getMessage());
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-        }
     }
 }
