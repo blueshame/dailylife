@@ -3,6 +3,8 @@ package com.flywant.api;
 import android.util.Log;
 
 import com.flywant.base.WebInfo;
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
@@ -26,8 +28,12 @@ public class AuthUser {
     private static final String URL_LOGIN = WebInfo.SERVER_ADDR + "/login";
 
     public class LoginResult {
+        @SerializedName("code")
         private int code;
+
+        @SerializedName("message")
         private String message;
+
         public LoginResult(int code, String message) {
             this.code = code;
             this.message = message;
@@ -59,8 +65,18 @@ public class AuthUser {
                 HttpEntity entity = httpResponse.getEntity();
                 String response = EntityUtils.toString(entity, "utf-8");
                 if (callback != null) {
-                    LoginResult loginResult = new LoginResult(0, "success");
+                    Gson gson = new Gson();
+                    LoginResult loginResult = gson.fromJson(response, LoginResult.class);
                     callback.OnLoginSuccess(loginResult);
+                }
+                Log.e(TAG, response);
+            } else if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_NOT_FOUND) {
+                HttpEntity entity = httpResponse.getEntity();
+                String response = EntityUtils.toString(entity, "utf-8");
+                if (callback != null) {
+                    Gson gson = new Gson();
+                    LoginResult loginResult = gson.fromJson(response, LoginResult.class);
+                    callback.OnLoginFail(loginResult);
                 }
                 Log.e(TAG, response);
             } else {
