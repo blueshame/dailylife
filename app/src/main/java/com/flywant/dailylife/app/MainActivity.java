@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     public class Callback implements AuthUser.ICallback {
         private Activity activity;
+
         public Callback(Activity activity) {
             this.activity = activity;
         }
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final Button login = findViewById(R.id.login);
         final Activity activity = this;
-        login.setOnClickListener(new View.OnClickListener(){
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e(TAG, "clicks");
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 thread.start();
-                }
+            }
         });
     }
 }

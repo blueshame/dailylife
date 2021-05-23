@@ -5,7 +5,7 @@ dependencies {
 
     implementation 'org.apache.httpcomponents:httpclient:4.5.12'
     implementation 'com.google.android:android:4.1.1.4'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    api 'com.google.code.gson:gson:2.8.5'
 }
 
 sourceCompatibility = "7"
